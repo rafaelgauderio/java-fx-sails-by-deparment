@@ -56,6 +56,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 	@FXML
 	private TableColumn<Seller, Double> tableColumnBaseSalary;
 
+
 	@FXML
 	private TableColumn<Seller, Seller> tableColumnEDIT;
 
@@ -63,7 +64,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private TableColumn<Seller, Seller> tableColumnREMOVE;
 
 	@FXML
-	private Button btnew;
+	private Button btNew;
 
 	private ObservableList<Seller> obsList;
 
@@ -85,13 +86,12 @@ public class SellerListController implements Initializable, DataChangeListener {
 	}
 
 	private void initializeNodes() {
-
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
-		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("email"));
-		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
-		Utils.formatTableColumnDate(tableColumnBirthDate,"dd/MM/yyyy");
-		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("BaseSalary"));
+		tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+		tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+		Utils.formatTableColumnDate(tableColumnBirthDate, "dd/MM/yyyy");
+		tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
 		Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);
 		
 		// table height follow window height
@@ -157,7 +157,8 @@ public class SellerListController implements Initializable, DataChangeListener {
 					return;
 				}
 				setGraphic(button);
-				button.setOnAction(event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
+				button.setOnAction(
+						event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}
@@ -178,7 +179,6 @@ public class SellerListController implements Initializable, DataChangeListener {
 				button.setOnAction(event -> removeEntity(obj));
 			}
 		});
-
 	}
 
 	private void removeEntity(Seller obj) {
@@ -191,7 +191,8 @@ public class SellerListController implements Initializable, DataChangeListener {
 			try {
 				service.remove(obj);
 				updateTableView();
-			} catch (DbIntegrityException e) {
+			}
+			catch (DbIntegrityException e) {
 				Alerts.showAlerts("Error removing object", null, e.getMessage(), AlertType.ERROR);
 			}
 		}
